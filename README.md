@@ -26,6 +26,14 @@ curl -sSL https://raw.githubusercontent.com/ImMALWARE/bash-warp-generator/main/w
 1. Тыкаем сюда: [![Run on Repl.it](https://repl.it/badge/github/replit/upm)](https://replit.com/new/github/ImMALWARE/bash-warp-generator)
 2. Создаём аккаунт
 3. Нажимаем кнопку Run вверху
+## Вариант 4: Windows
+#### Имейте в виду, что запросы на получение конфига могут не выполниться из-за блокировки РКН
+1. Открываем PowerShell
+2. Вставляем команду:
+```bash
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force; Invoke-Expression ((Invoke-WebRequest -Uri "https://raw.githubusercontent.com/ImMALWARE/bash-warp-generator/main/warp_generator.ps1" -UseBasicParsing).Content)
+```
+3. Копируем конфиг, либо скачиваем файлом по ссылке и импортируем в AmneziaWG!👍
 
 
 ## Что-то не получается?
