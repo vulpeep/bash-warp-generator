@@ -15,7 +15,7 @@ bash <(wget -qO- https://raw.githubusercontent.com/ImMALWARE/bash-warp-generator
 1. Тыкаем сюда: [![Run on Repl.it](https://repl.it/badge/github/replit/upm)](https://replit.com/new/github/ImMALWARE/bash-warp-generator)
 2. Создаём аккаунт
 3. Нажимаем кнопку Run вверху
-## Вариант 4: Windows
+## Вариант 3: Windows
 #### Имейте в виду, что запросы на получение конфига могут не выполниться из-за блокировки РКН
 1. Открываем PowerShell
 2. Вставляем команду:
@@ -26,7 +26,7 @@ Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force; Invoke-Expres
 
 
 ## Что-то не получается?
-### После подключении в AmneziaWG ничего не работает, в строке **Передача**: получено 0 Б
+### После подключения в AmneziaWG ничего не работает, в строке **Передача**: получено 0 Б
 К сожалению, AmneziaWG не удалось обойти блокировку WireGuard от вашего провайдера :( \
 https://github.com/ImMALWARE/bash-warp-generator/issues/5
 
