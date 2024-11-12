@@ -123,17 +123,6 @@ try {
         throw "Не удалось получить данные для конфигурации."
     }
 
-    # Установка значения по умолчанию для allowed_ips
-    $allowed_ips = "0.0.0.0/1, 128.0.0.0/1, ::/1, 8000::/1"
-
-    # Запрос у пользователя информации об использовании на iOS/Android
-    $user_input = Read-Host "Вы будете использовать конфиг на iOS/Android? Если да, введите + и нажмите Enter. Если нет, просто нажмите Enter"
-
-    # Если пользователь ввел "+", меняем значение allowed_ips
-    if ($user_input -eq "+") {
-        $allowed_ips = "0.0.0.0/0, ::/0"
-    }
-
     # Создание конфигурационного файла
     $conf = @"
 [Interface]
@@ -152,7 +141,7 @@ DNS = 1.1.1.1, 1.0.0.1, 2606:4700:4700::1111, 2606:4700:4700::1001
 
 [Peer]
 PublicKey = $peer_pub
-AllowedIPs = $allowed_ips
+AllowedIPs = 0.0.0.0/0, ::/0
 Endpoint = $peer_endpoint
 "@
 
@@ -167,14 +156,15 @@ if (-not $ErrorOccurred) {
     Clear-Host
     Write-Host "`n`n`n"
     Write-Host "########## НАЧАЛО КОНФИГА ##########"
-    Write-Host $conf
+    Write-Host $conf -ForegroundColor DarkGray
     Write-Host "########### КОНЕЦ КОНФИГА ###########"
 
     # Кодирование конфигурации в Base64
     $conf_base64 = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($conf))
 
     # Вывод ссылки для скачивания
-    Write-Host "Скачать конфиг файлом: https://immalware.github.io/downloader.html?filename=WARP.conf&content=$conf_base64"
+    Write-Host "Скачать конфиг файлом: "
+    Write-Host "https://immalware.github.io/downloader.html?filename=WARP.conf&content=$conf_base64" -ForegroundColor Blue
     Write-Host "`nЧто-то не получилось? Есть вопросы? Пишите в чат: https://t.me/immalware_chat"
 } else {
     Write-Host "Конфигурация не будет выведена из-за ошибок."
