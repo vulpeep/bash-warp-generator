@@ -4,7 +4,7 @@ clear
 mkdir -p ~/.cloudshell && touch ~/.cloudshell/no-apt-get-warning # Для Google Cloud Shell, но лучше там не выполнять
 echo "Установка зависимостей..."
 apt update -y && apt install sudo -y # Для Aeza Terminator, там sudo не установлен по умолчанию
-sudo apt-get update -y --fix-missing && sudo apt-get install wireguard-tools jq wget -y --fix-missing # Update второй раз, если sudo установлен и обязателен (в строке выше не сработал)
+sudo apt-get update -y --fix-missing && sudo apt-get install wireguard-tools jq wget qrencode -y --fix-missing # Update второй раз, если sudo установлен и обязателен (в строке выше не сработал)
 
 priv="${1:-$(wg genkey)}"
 pub="${2:-$(echo "${priv}" | wg pubkey)}"
@@ -20,7 +20,7 @@ id=$(echo "$response" | jq -r '.result.id')
 token=$(echo "$response" | jq -r '.result.token')
 response=$(sec PATCH "reg/${id}" "$token" -d '{"warp_enabled":true}')
 peer_pub=$(echo "$response" | jq -r '.result.config.peers[0].public_key')
-peer_endpoint=$(echo "$response" | jq -r '.result.config.peers[0].endpoint.host')
+#peer_endpoint=$(echo "$response" | jq -r '.result.config.peers[0].endpoint.host')
 client_ipv4=$(echo "$response" | jq -r '.result.config.interface.addresses.v4')
 client_ipv6=$(echo "$response" | jq -r '.result.config.interface.addresses.v6')
 
@@ -43,7 +43,7 @@ DNS = 1.1.1.1, 2606:4700:4700::1111, 1.0.0.1, 2606:4700:4700::1001
 [Peer]
 PublicKey = ${peer_pub}
 AllowedIPs = 0.0.0.0/0, ::/0
-Endpoint = ${peer_endpoint}
+Endpoint = engage.cloudflareclient.com:2408
 EOM
 )
 
@@ -52,7 +52,10 @@ echo -e "\n\n\n"
 echo "${conf}"
 [ -t 1 ] && echo "########### КОНЕЦ КОНФИГА ###########"
 
+echo -e "\nОтсканируйте QR код конфигурации с помощью приложения AmneziaWG на смартфон:\n"
+echo "$conf" | qrencode -t utf8
+echo -e "\n"
 conf_base64=$(echo -n "${conf}" | base64 -w 0)
-echo "Скачать конфиг файлом: https://immalware.github.io/downloader.html?filename=WARP.conf&content=${conf_base64}"
+echo "Скачать конфиг файлом: https://immalware.vercel.app/download?filename=WARP.conf&content=${conf_base64}"
 echo -e "\n"
 echo "Что-то не получилось? Есть вопросы? Пишите в чат: https://t.me/immalware_chat"
